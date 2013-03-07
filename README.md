@@ -40,6 +40,10 @@ Open the Chrome console and click on the settings tab. You'll see an option to e
 
 Finally to see your CoffeeScript code in the Chrome console just add a `debugger` call in your code and you'll see the CoffeeScript in your console to debug.
 
+## Acknowledgements
+
+This gem is based on the following Gist: [https://gist.github.com/naan/5096056](https://gist.github.com/naan/5096056).
+
 ## Contributing
 
 1. Fork it
