@@ -40,6 +40,12 @@ Open the Chrome console and click on the settings tab. You'll see an option to e
 
 Finally to see your CoffeeScript code in the Chrome console just add a `debugger` call in your code and you'll see the CoffeeScript in your console to debug.
 
+## Help! I'm Not Seeing Maps!
+
+Ah, yes, I too have run into this. If you're using the asset-pipeline, and you probably are since this gem requires it. Then you need to touch your CoffeeScript files in order for the asset-pipeline to generate the map for that file. Once you do that the next time you access the file in Chrome a source map should be generated for you and you'll see it in the browser.
+
+Good luck!
+
 ## Acknowledgements
 
 This gem is based on the following Gist: [https://gist.github.com/naan/5096056](https://gist.github.com/naan/5096056).
