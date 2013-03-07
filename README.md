@@ -1,6 +1,6 @@
-# Coffee::Rails::Source::Maps
+# CoffeeScript Rails Source Maps
 
-TODO: Write a gem description
+Adds CoffeeScript source maps support, introduced in version [1.6.1](http://coffeescript.org/#changelog), to Rails. This code is based on a Gist by [naan](https://gist.github.com/naan/5096056).
 
 ## Installation
 
@@ -12,13 +12,33 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install coffee-rails-source-maps
-
 ## Usage
 
-TODO: Write usage instructions here
+This gem should really only be used in development mode.
+
+```ruby
+group :development do
+  gem 'coffee-rails-source-maps'
+end
+```
+
+This gem will create a folder called `source_maps` in the Rails `public` directory. I would recommend adding this to your `.gitignore` file so you don't check this folder into git.
+
+```
+public/source_maps/
+```
+
+### Using Source Maps in Chrome
+
+In order to use the source maps you need to use a browser that supports them. Chrome is an excellent choice.
+
+Open the Chrome console and click on the settings tab. You'll see an option to enable source maps, make sure that is checked.
+
+![](http://i.imgur.com/5ndSqZV.jpg)
+
+### Activating the Map
+
+Finally to see your CoffeeScript code in the Chrome console just add a `debugger` call in your code and you'll see the CoffeeScript in your console to debug.
 
 ## Contributing
 
