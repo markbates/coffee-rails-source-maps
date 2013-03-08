@@ -18,27 +18,37 @@ if Rails.env.development?
         end
 
         pathname = options[:pathname]
-        clean_name = pathname.basename.to_s.split(".").first
+        if pathname.nil?
+          return Source.context.call("CoffeeScript.compile", script, options)
+        else
+          comment = ""
 
-        # adding source maps option. (source maps option requires filename option.)
-        options[:sourceMap] = true
-        options[:filename]  = "#{clean_name}.coffee"
+          clean_name = pathname.basename.to_s.split(".").first
+          # adding source maps option. (source maps option requires filename option.)
+          options[:sourceMap] = true
+          options[:filename]  = "#{clean_name}.coffee"
 
-        ret = Source.context.call("CoffeeScript.compile", script, options)
+          ret = Source.context.call("CoffeeScript.compile", script, options)
 
-        rel_path = pathname.relative_path_from(Rails.root.join("app", "assets", "javascripts")).dirname
-        map_dir = Rails.root.join("public", "source_maps", rel_path)
-        map_dir.mkpath
+          rel_path = if pathname.to_s.start_with?(Bundler.bundle_path.to_s)
+            Pathname('bundler').join(pathname.relative_path_from(Bundler.bundle_path)).dirname
+          else
+            pathname.relative_path_from(Rails.root.join("app", "assets", "javascripts")).dirname
+          end
+          
+          map_dir = Rails.root.join("public", "source_maps", rel_path)
+          map_dir.mkpath
 
-        map_file    = map_dir.join("#{clean_name}.map")
-        coffee_file = map_dir.join("#{clean_name}.coffee")
+          map_file    = map_dir.join("#{clean_name}.map")
+          coffee_file = map_dir.join("#{clean_name}.coffee")
 
-        coffee_file.open('w') {|f| f.puts script }
-        map_file.open('w')    {|f| f.puts ret["v3SourceMap"]}
+          coffee_file.open('w') {|f| f.puts script }
+          map_file.open('w')    {|f| f.puts ret["v3SourceMap"]}
 
-        comment = "//@ sourceMappingURL=/#{map_file.relative_path_from(Rails.root.join("public"))}\n"
-        return comment + ret["js"]
-
+          comment = "//@ sourceMappingURL=/#{map_file.relative_path_from(Rails.root.join("public"))}\n"
+          return comment + ret['js']
+        end
+        
       end
 
     end
@@ -56,16 +66,3 @@ if Rails.env.development?
   end
 
 end
-
-__END__
-11:06:13 web.1  | options: {:bare=>false, :pathname=>#<Pathname:/Users/markbates/Dropbox/development/vogon-next/app/assets/javascripts/controllers/authors/edit_controller.js.coffee.erb>, :sourceMap=>true, :filename=>"edit_controller.js.coffee.erb"}
-11:06:13 web.1  | basename: #<Pathname:edit_controller.js.coffee.erb>
-11:06:13 web.1  | map_file: #<Pathname:/Users/markbates/Dropbox/development/vogon-next/public/source_maps/edit_controller.js.coffee.erb.map>
-11:06:13 web.1  | coffee_file: #<Pathname:/Users/markbates/Dropbox/development/vogon-next/public/source_maps/edit_controller.js.coffee.erb.coffee>
-11:06:13 web.1  | comment: "//@ sourceMappingURL=/source_maps/edit_controller.js.coffee.erb.map\n"
-
-11:06:13 web.1  | options: {:bare=>false, :pathname=>#<Pathname:/Users/markbates/Dropbox/development/vogon-next/app/assets/javascripts/application.js.coffee>, :sourceMap=>true, :filename=>"application.js.coffee"}
-11:06:13 web.1  | basename: #<Pathname:application.js>
-11:06:13 web.1  | map_file: #<Pathname:/Users/markbates/Dropbox/development/vogon-next/public/source_maps/application.js.map>
-11:06:13 web.1  | coffee_file: #<Pathname:/Users/markbates/Dropbox/development/vogon-next/public/source_maps/application.js.coffee>
-11:06:13 web.1  | comment: "//@ sourceMappingURL=/source_maps/application.js.map\n"
