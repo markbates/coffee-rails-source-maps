@@ -21,8 +21,6 @@ if Rails.env.development?
         if pathname.nil?
           return Source.context.call("CoffeeScript.compile", script, options)
         else
-          comment = ""
-
           clean_name = pathname.basename.to_s.split(".").first
           # adding source maps option. (source maps option requires filename option.)
           options[:sourceMap] = true
