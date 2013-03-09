@@ -44,6 +44,14 @@ Finally to see your CoffeeScript code in the Chrome console just add a `debugger
 
 Ah, yes, I too have run into this. If you're using the asset-pipeline, and you probably are since this gem requires it. Then you need to touch your CoffeeScript files in order for the asset-pipeline to generate the map for that file. Once you do that the next time you access the file in Chrome a source map should be generated for you and you'll see it in the browser.
 
+If you're still not seeing source maps trying adding:
+
+```ruby
+gem 'tilt'
+```
+
+in your `Gemfile` before the `coffee-rails-source-maps` gem. That has been proven to fix the issue.
+
 Good luck!
 
 ## Acknowledgements
