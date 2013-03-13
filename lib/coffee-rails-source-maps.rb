@@ -31,7 +31,7 @@ if Rails.env.development?
           rel_path = if pathname.to_s.start_with?(Bundler.bundle_path.to_s)
             Pathname('bundler').join(pathname.relative_path_from(Bundler.bundle_path)).dirname
           else
-            pathname.relative_path_from(Rails.root.join("app", "assets", "javascripts")).dirname
+            pathname.relative_path_from(Rails.root).dirname
           end
           
           map_dir = Rails.root.join("public", "source_maps", rel_path)
