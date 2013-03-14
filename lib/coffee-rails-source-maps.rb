@@ -4,6 +4,7 @@ require "coffee-rails-source-maps/version"
 # config/initializers/source_maps.rb
 
 if Rails.env.development?
+  require 'coffee-script' #make sure CoffeeScript is loaded before we overwrite it.
   module CoffeeScript
 
     class << self
