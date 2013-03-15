@@ -54,7 +54,7 @@ if Rails.env.development?
   end
 
   # Monkeypatch this method to include the scripts' pathname
-  require 'tilt/template'
+  require 'tilt/coffee'
 
   module Tilt
     class CoffeeScriptTemplate < Template
