@@ -69,4 +69,5 @@ This gem is based on the following Gist: [https://gist.github.com/naan/5096056](
 ## Contributers
 
 * Mark Bates
+* Raymond Vellener
 * Thomas Walpole
