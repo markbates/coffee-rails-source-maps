@@ -34,8 +34,8 @@ if Rails.env.development?
           else
             pathname.relative_path_from(Rails.root).dirname
           end
-          
-          map_dir = Rails.root.join("public", "source_maps", rel_path)
+
+          map_dir = Rails.root.join("public/" + Rails.configuration.assets.prefix, "source_maps", rel_path)
           map_dir.mkpath
 
           map_file    = map_dir.join("#{clean_name}.map")
@@ -47,7 +47,7 @@ if Rails.env.development?
           comment = "//@ sourceMappingURL=/#{map_file.relative_path_from(Rails.root.join("public"))}\n"
           return comment + ret['js']
         end
-        
+
       end
 
     end
@@ -59,7 +59,7 @@ if Rails.env.development?
   module Tilt
     class CoffeeScriptTemplate < Template
       def evaluate(scope, locals, &block)
-        @output ||= CoffeeScript.compile(data, options.merge(pathname: scope.pathname))
+        @output ||= CoffeeScript.compile(data, options.merge(:pathname => scope.pathname))
       end
     end
   end
