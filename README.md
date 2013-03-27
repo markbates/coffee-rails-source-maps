@@ -63,4 +63,5 @@ This gem is based on the following Gist: [https://gist.github.com/naan/5096056](
 * Mark Bates
 * Raymond Vellener
 * Curtis Steckel
+* Alexey Chernenkov
 * Thomas Walpole
