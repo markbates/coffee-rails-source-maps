@@ -23,11 +23,6 @@ if Rails.env.development?
           return Source.context.call("CoffeeScript.compile", script, options)
         else
           clean_name = pathname.basename.to_s.split(".").first
-          # adding source maps option. (source maps option requires filename option.)
-          options[:sourceMap] = true
-          options[:filename]  = "#{clean_name}.coffee"
-
-          ret = Source.context.call("CoffeeScript.compile", script, options)
 
           rel_path = if pathname.to_s.start_with?(Bundler.bundle_path.to_s)
             Pathname('bundler').join(pathname.relative_path_from(Bundler.bundle_path)).dirname
@@ -40,6 +35,11 @@ if Rails.env.development?
 
           map_file    = map_dir.join("#{clean_name}.map")
           coffee_file = map_dir.join("#{clean_name}.coffee")
+
+          options[:sourceMap]   = true
+          options[:filename]    = "#{clean_name}.coffee" # coffee requires filename option to work with source maps (see http://coffeescript.org/documentation/docs/coffee-script.html#section-4)
+          options[:sourceFiles] = ["/#{coffee_file.relative_path_from(Rails.root.join("public"))}"] # specify coffee source file explicitly (see http://coffeescript.org/documentation/docs/sourcemap.html#section-8)
+          ret = Source.context.call("CoffeeScript.compile", script, options)
 
           coffee_file.open('w') {|f| f.puts script }
           map_file.open('w')    {|f| f.puts ret["v3SourceMap"]}
@@ -65,3 +65,4 @@ if Rails.env.development?
   end
 
 end
+
