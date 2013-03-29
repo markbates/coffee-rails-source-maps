@@ -11,6 +11,9 @@ Add this line to your application's Gemfile:
 And then execute:
 
     $ bundle
+    $ rm -rf tmp/cache/assets
+
+Removing `tmp/cache/assets` will cause the asset pipeline to recompile all your coffeescripts on the next page load. This will ensure all source maps are generated.
 
 ## Usage
 
@@ -22,7 +25,7 @@ group :development do
 end
 ```
 
-This gem will create a folder called `source_maps` in the Rails `public` directory. I would recommend adding this to your `.gitignore` file so you don't check this folder into git.
+This gem will create a folder called `assets/source_maps` in the Rails `public` directory. I would recommend adding this to your `.gitignore` file so you don't check this folder into git.
 
 ```
 public/source_maps/
@@ -42,7 +45,7 @@ Finally to see your CoffeeScript code in the Chrome console just add a `debugger
 
 ## Help! I'm Not Seeing Maps!
 
-Ah, yes, I too have run into this. If you're using the asset-pipeline, and you probably are since this gem requires it. Then you need to touch your CoffeeScript files in order for the asset-pipeline to generate the map for that file. Once you do that the next time you access the file in Chrome a source map should be generated for you and you'll see it in the browser.
+Make sure you've deleted `tmp/cache/assets`, restarted your server, enabled source maps in Chrome, and cleared its cache.
 
 Good luck!
 
