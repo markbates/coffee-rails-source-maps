@@ -59,7 +59,8 @@ if Rails.env.development?
   module Tilt
     class CoffeeScriptTemplate < Template
       def evaluate(scope, locals, &block)
-        @output ||= CoffeeScript.compile(data, options.merge(:pathname => scope.pathname))
+        pathname = scope.respond_to?(:pathname) ? scope.pathname : nil
+        @output ||= CoffeeScript.compile(data, options.merge(:pathname => pathname))
       end
     end
   end
