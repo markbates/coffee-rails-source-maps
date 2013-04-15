@@ -45,7 +45,7 @@ if Rails.env.development?
           map_file.open('w')    {|f| f.puts ret["v3SourceMap"]}
 
           comment = "//@ sourceMappingURL=/#{map_file.relative_path_from(Rails.root.join("public"))}\n"
-          return comment + ret['js']
+          return ret['js'] + comment
         end
 
       end
