@@ -67,6 +67,7 @@ This gem is based on the following Gist: [https://gist.github.com/naan/5096056](
 * Raymond Vellener
 * Alexey Chernenkov
 * Brent Dillingham
-* Curtis Steckel
 * Sean Santry
+* Curtis Steckel
+* Tim Moore
 * Thomas Walpole
