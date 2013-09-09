@@ -28,7 +28,7 @@ end
 This gem will create a folder called `assets/source_maps` in the Rails `public` directory. I would recommend adding this to your `.gitignore` file so you don't check this folder into git.
 
 ```
-public/source_maps/
+public/assets/source_maps/
 ```
 
 ### Using Source Maps in Chrome
