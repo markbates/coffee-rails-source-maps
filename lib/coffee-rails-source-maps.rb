@@ -39,7 +39,22 @@ if Rails.env.development?
           options[:sourceMap]   = true
           options[:filename]    = "#{clean_name}.coffee" # coffee requires filename option to work with source maps (see http://coffeescript.org/documentation/docs/coffee-script.html#section-4)
           options[:sourceFiles] = ["/#{coffee_file.relative_path_from(Rails.root.join("public"))}"] # specify coffee source file explicitly (see http://coffeescript.org/documentation/docs/sourcemap.html#section-8)
-          ret = Source.context.call("CoffeeScript.compile", script, options)
+
+          wrapper = <<-WRAPPER
+            (function(script, options) {
+              try {
+                return CoffeeScript.compile(script, options);
+              } catch (err) {
+                if (err instanceof SyntaxError && err.location) {
+                  throw new SyntaxError([options.filename, err.location.first_line + 1, err.location.first_column + 1].join(":") + ": " + err.message)
+                } else {
+                  throw err;
+                }
+              }
+            })
+          WRAPPER
+
+          ret = Source.context.call(wrapper, script, options)
 
           coffee_file.open('w') {|f| f.puts script }
           map_file.open('w')    {|f| f.puts ret["v3SourceMap"]}
