@@ -35,6 +35,8 @@ public/assets/source_maps/
 
 In order to use the source maps you need to use a browser that supports them. Chrome is an excellent choice.
 
+First Enable Developer Tools Experiments, chrome://flags/#enable-devtools-experiments
+
 Open the Chrome console and click on the settings tab. You'll see an option to enable source maps, make sure that is checked.
 
 ![](http://i.imgur.com/5ndSqZV.jpg)
