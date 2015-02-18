@@ -22,7 +22,7 @@ if Rails.env.development?
         if pathname.nil?
           return Source.context.call("CoffeeScript.compile", script, options)
         else
-          clean_name = pathname.basename.to_s.split(".").first
+          clean_name = File.basename(pathname.basename, File.extname(pathname.basename))
 
           rel_path = if pathname.to_s.start_with?(Bundler.bundle_path.to_s)
             Pathname('bundler').join(pathname.relative_path_from(Bundler.bundle_path)).dirname
