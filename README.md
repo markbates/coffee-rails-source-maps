@@ -1,3 +1,5 @@
+# DO NOT USE THIS!! I DO NOT MAINTAIN IT!
+
 # CoffeeScript Rails Source Maps
 
 Adds CoffeeScript source maps support, introduced in version [1.6.1](http://coffeescript.org/#changelog), to Rails. This code is based on a Gist by [naan](https://gist.github.com/naan/5096056).
