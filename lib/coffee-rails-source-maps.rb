@@ -59,7 +59,7 @@ if Rails.env.development?
           coffee_file.open('w') {|f| f.puts script }
           map_file.open('w')    {|f| f.puts ret["v3SourceMap"]}
 
-          comment = "//# sourceMappingURL=/#{map_file.relative_path_from(Rails.root.join("public"))}\n"
+          comment = "//@ sourceMappingURL=/#{map_file.relative_path_from(Rails.root.join("public"))}\n"
           return ret['js'] + comment
         end
 
