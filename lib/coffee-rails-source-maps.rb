@@ -3,7 +3,7 @@ require "coffee-rails-source-maps/version"
 # Based on https://gist.github.com/naan/5096056
 # config/initializers/source_maps.rb
 
-if Rails.env.development?
+if Rails.env.development? && ENV['CS_SOURCE_MAPS'] != 'false'
   require 'coffee-script' #make sure CoffeeScript is loaded before we overwrite it.
   module CoffeeScript
 
