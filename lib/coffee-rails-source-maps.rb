@@ -38,7 +38,7 @@ if Rails.env.development?
 
           options[:sourceMap]   = true
           options[:filename]    = "#{clean_name}.coffee" # coffee requires filename option to work with source maps (see http://coffeescript.org/documentation/docs/coffee-script.html#section-4)
-          options[:sourceFiles] = ["/#{coffee_file.relative_path_from(Rails.root.join("public"))}"] # specify coffee source file explicitly (see http://coffeescript.org/documentation/docs/sourcemap.html#section-8)
+          options[:sourceFiles] = ["#{Rails.configuration.relative_url_root}/#{coffee_file.relative_path_from(Rails.root.join("public"))}"] # specify coffee source file explicitly (see http://coffeescript.org/documentation/docs/sourcemap.html#section-8)
 
           wrapper = <<-WRAPPER
             (function(script, options) {
@@ -59,7 +59,7 @@ if Rails.env.development?
           coffee_file.open('w') {|f| f.puts script }
           map_file.open('w')    {|f| f.puts ret["v3SourceMap"]}
 
-          comment = "//# sourceMappingURL=/#{map_file.relative_path_from(Rails.root.join("public"))}\n"
+          comment = "//# sourceMappingURL=#{Rails.configuration.relative_url_root}/#{map_file.relative_path_from(Rails.root.join("public"))}\n"
           return ret['js'] + comment
         end
 
