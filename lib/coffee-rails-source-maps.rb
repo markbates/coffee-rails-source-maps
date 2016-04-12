@@ -82,8 +82,6 @@ if Rails.env.development?
     #   https://github.com/josh/ruby-coffee-script
     #
     module CoffeeScriptProcessor
-      VERSION = '1'
-
       def self.cache_key
         @cache_key ||= "#{name}:#{Autoload::CoffeeScript::Source.version}:#{VERSION}".freeze
       end
