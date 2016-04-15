@@ -5,11 +5,13 @@ require "coffee-rails-source-maps/version"
 
 if Rails.env.development?
   require 'coffee-script' #make sure CoffeeScript is loaded before we overwrite it.
+
   module CoffeeScript
 
     class << self
 
       def compile(script, options = {})
+
         script = script.read if script.respond_to?(:read)
 
         if options.key?(:no_wrap) && !options.key?(:bare)
@@ -69,15 +71,45 @@ if Rails.env.development?
   end
 
   # Monkeypatch this method to include the scripts' pathname
-  require 'tilt/coffee'
+  # This works for rails 4.0.13
+  require 'sprockets/autoload'
+  module Sprockets
+    # Processor engine class for the CoffeeScript compiler.
+    # Depends on the `coffee-script` and `coffee-script-source` gems.
+    #
+    # For more infomation see:
+    #
+    #   https://github.com/josh/ruby-coffee-script
+    #
+    module CoffeeScriptProcessor
+      def self.cache_key
+        @cache_key ||= "#{name}:#{Autoload::CoffeeScript::Source.version}:#{VERSION}".freeze
+      end
 
-  module Tilt
-    class CoffeeScriptTemplate < Template
-      def evaluate(scope, locals, &block)
-        pathname = scope.respond_to?(:pathname) ? scope.pathname : nil
-        @output ||= CoffeeScript.compile(data, options.merge(:pathname => pathname))
+      def self.call(input)
+        data = input[:data]
+        input[:cache].fetch([self.cache_key, data]) do
+          Autoload::CoffeeScript.compile(data, {pathname: Pathname.new(input[:filename])})
+        end
       end
     end
   end
+
+  # # Monkeypatch this method to include the scripts' pathname
+  # # This works for rails 4.2.0
+  # require 'tilt/coffee'
+
+  # module Tilt
+  #   class CoffeeScriptTemplate < Template
+  #     def evaluate(scope, locals, &block)
+
+  #       raise "rene"
+
+        
+  #       pathname = scope.respond_to?(:pathname) ? scope.pathname : nil
+  #       @output ||= CoffeeScript.compile(data, options.merge(:pathname => pathname))
+  #     end
+  #   end
+  # end
 
 end
